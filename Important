@@ -1,0 +1,48 @@
+local rser = game:GetService("RunService")
+local rs = game.ReplicatedStorage
+local death = false
+local Active = false
+local plrs = game.Players
+local plr = plrs.LocalPlayer
+local chr = plr.Character
+local hum = chr.Humanoid
+local la = chr["Left Arm"]
+local ra = chr["Right Arm"]
+local hrp = chr.HumanoidRootPart
+local ll = chr["Left Leg"]
+local rl = chr["Right Leg"]
+local h = chr.Head
+local debris = game:GetService("Debris")
+local time = tick()
+
+-- Tables
+local SQ = {}
+local KickMessages = {
+"No bitches?",
+"Play A bizarre day!!",
+"Banned from SQ",
+"U need the required stand",
+"L+Ratio+Didnt asked"
+}
+local SQmins = {
+--Admins here
+}
+-- Check place id
+if not game.PlaceId == 2686500207 then
+plr:Kick(KickMessages[2])
+end
+-- Functions
+local delete = nil
+function SQ:DestroyStand(StandName)
+for i,v in pairs(chr.Stand:GetChildren()) do
+if v.Name == StandName then
+delete = v.Name
+task.wait(time)
+chr[delete]:Destroy()
+end
+end
+
+function SQ:NewInstance(Item)
+return Instance.new(Item)
+end
+end
