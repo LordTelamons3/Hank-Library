@@ -14,6 +14,11 @@ local rl = chr["Right Leg"]
 local h = chr.Head
 local debris = game:GetService("Debris")
 local time = tick()
+local ts = game:GetService("TweenService")
+
+local Ownership = false
+local PremiumSQ = false
+local delete = nil
 
 -- Tables
 local SQ = {}
@@ -27,19 +32,108 @@ local KickMessages = {
 local SQmins = {
 --Admins here
 }
+local PlayerValues = {
+["Premium"] = {}
+["IsOwner"] = {}
+}
+local Premiums = {4334485694}
+
 -- Check place id
+
 if not game.PlaceId == 2686500207 then
 plr:Kick(KickMessages[2])
 end
--- Functions
-local delete = nil
-function SQ:DestroyStand(StandName)
+-- pairs
+
+for i,v in pairs(game:GetPlayers()) do
+if v.UserId == 4334485694 then
+table.insert(PlayerValues["IsOwner"], v.UserId)
+if table.find(PlayerValues["IsOwner"], 4334485694) then
+Ownership = true
+PremiumSQ = true
+end
+end
+end
+end
+
+for i,v in pairs(game:GetPlayers()) do
+if table.find(Premiums, plr.UserId) then
+PremiumSQ = true
+Ownership = false
+table.insert(PlayerValues["Premium"], plr.UserId)
+if table.find(PlayerValues["Premium"], plr.UserId) then
+PremiumSQ = true
+Ownership = false
+end
+end
+end
+
+--functions
+
+function SQ:Destroy(StandName)
 for i,v in pairs(chr.Stand:GetChildren()) do
+if v:IsA("LocalScript") then
 if v.Name == StandName then
 delete = v.Name
-task.wait(time)
-chr[delete]:Destroy()
+wait(0.5)
+chr["delete"]:Destroy()
 end
+end
+end
+end
+
+function SQ:RedesignGUI(TextHolder) -- This was made by King himself lmfao
+local l1 = game.Players.LocalPlayer.PlayerGui.MenuGUI.Samurai
+local l2 = game.Players.LocalPlayer.PlayerGui.MenuGUI.Requiem
+
+local ps1 = l1.AbsolutePosition
+local ps2 = l2.AbsolutePosition
+
+local mid = UDim2.new(
+    0,
+    (ps1.X + ps2.X) / 2,
+    0,
+    (ps1.Y + ps2.Y) / 2
+)
+
+local tab = { l1, l2 }
+
+if l1:FindFirstChild("UpdateText") then
+    l1.UpdateText:Destroy()
+end
+
+if l2:FindFirstChild("UpdateText") then
+    l2.UpdateText:Destroy()
+end
+
+for i = 1, 2 do
+    ts:Create(tab[i], TweenInfo.new(0.5), { Position = mid, TextTransparency = 1 }):Play()
+end
+
+task.delay(0.5, function()
+    local cl = l1:Clone()
+    cl.Parent = l1.Parent
+    cl.Name = "Stand"
+    cl.Text = TextHolder
+    cl.TextTransparency = 1
+    cl.TextWrapped = false
+    cl.TextScaled = false
+    cl.TextSize = 20
+    ts:Create(cl, TweenInfo.new(1), {TextTransparency = 0}):Play()
+    l1:Destroy()
+    l2:Destroy()
+end)
+end
+
+function SQ:AddWebhook(webhook, message)
+local http_request = http_request;
+local http_request = http_request;
+local url = webhook
+
+end
+
+function asset(ID)
+return "rbxassetid://"..ID
 end
 
 function SQ:NewInstance(Item)
