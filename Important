@@ -146,37 +146,8 @@ function SQ:Asset(ID)
 return "rbxassetid://"..ID
 end
 
-function SQ:weldd(Part00, Part11, PartP)
+function SQ:weldd(Part00, Part11)
 	local hitweld = Instance.new("Weld")
 	hitweld.Part0 = Part0
 	hitweld.Part1 = Part1
-	hitweld.Parent = PartP
-end
-
-function SQ:hitboxcreate(BodyPart, PartName, Size, DamageType, Parameters, Trans, CD)
-	if Active == true then return end
-	Active = true
-	local hitbox = Instance.new("Part")
-	hitbox.Name = PartName
-	hitbox.CFrame = BodyPart.CFrame
-	hitbox.Size = BodyPart.Size*Size
-	hitbox.Anchored = false
-	hitbox.CanCollide = false
-	hitbox.Massless = true
-	hitbox.Transparency = Trans
-	SQ:weldd(hitbox, BodyPart, hitbox)
-	hitbox.Color = Color3.new(0,0,0)
-	hitbox.Touched:Connect(function(hit)
-		if hit.Parent:FindFirstChild("Humanoid") and hit.Parent.Name ~= plr.Name then
-			if hit.Parent:FindFirstChild("HumanoidRootPart") then
-				DamageType:FireServer(Parameters)
-			end
-		end
-		wait(CD)
-		if hitbox then
-			hitbox:Destroy()
-		end
-		wait(1)
-		Active = false
-	end)
 end
