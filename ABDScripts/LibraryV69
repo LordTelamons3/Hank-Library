@@ -8,7 +8,9 @@ local MainValues = {
 ["Godmode"] = true,
 ["AntiFling"] = true,
 ["Knocked"] = false,
-["Invisible"] = false
+["Invisible"] = false,
+["OrginCFrame"] = nil,
+["NeverAnchor"] = true
 },
 ["Syn-Req"] = request or syn.request,
 ["Audios"] = {},
@@ -16,5 +18,36 @@ local MainValues = {
 }
 
 function MainValues.Run(Parameters)
-	if
+if MainValues["CustomValues"]["Knocked"] then
+if game.Players.LocalPlayer.Character.Humanoid.PlatformStand == true then
+game.ReplicatedStorage.GetUp:FireServer()
+game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(3, true)
+game.Players.LocalPlayer.Character.Humanoid.AutoRotate = true
+game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false
+end
+end
+if MainValues["CustomValues"]["AntiFling"] then
+for Index, Force in pairs(game.Players.LocalPlayer.Character.HumanoidRootPart:GetChildren()) do
+if Force.ClassName:match("Body") then
+Force:Destroy()
+end
+end
+if game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Magnitude >= 175 then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = MainValues["CustomValues"]["OrginCFrame"]
+game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new()
+else
+Library["CustomValues"]["OrginCFrame"] = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+end
+end
+if MainValues["CustomValues"]["NeverAnchor"] then
+for Index, Object in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+if Object:IsA("Part") and Object.Anchored == true then
+game.ReplicatedStorage.Anchor:FireServer(Object, false)
+end
+end
+if MainValues["CustomValues"]["Godmode"] then
+game.ReplicatedStorage.GravityShift:FireServer(game.Players.LocalPlayer.Character.Humanoid, math.huge*0)
+game.ReplicatedStorage.Block:FireServer(true)
+end
+end
 end
