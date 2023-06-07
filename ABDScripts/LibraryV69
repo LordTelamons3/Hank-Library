@@ -51,3 +51,5 @@ game.ReplicatedStorage.Block:FireServer(true)
 end
 end
 end
+
+return MainValues
