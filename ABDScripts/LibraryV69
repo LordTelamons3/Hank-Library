@@ -109,7 +109,7 @@ function LibraryValues:Run(Parameters)
 		task.delay(0.5, function()
 			local cl = l1:Clone()
 			cl.Parent = l1.Parent
-			cl.Name = Parameters["FirstText"]
+			cl.Name = "StandMode"
 			cl.Text = Parameters["SecondText"]
 			cl.TextTransparency = 1
 			cl.TextWrapped = false
