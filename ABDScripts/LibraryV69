@@ -1,51 +1,117 @@
-local MainValues = {
-	["Aura"] = {},
-	["Binds"] = {
-		["Began"] = {},
-		["Ended"] = {}
-	},
+--\\ This is made by Squeezy //--
+
+local LibraryValues = {
 	["CustomValues"] = {
-		["Godmode"] = true,
-		["AntiFling"] = true,
-		["Knocked"] = false,
-		["Invisible"] = false,
-		["OrginCFrame"] = nil,
-		["NeverAnchor"] = true
+		["AntiAnchor"] = false,
+		["Godmoded"] = false,
+		["PastCFrame"] = nil,
+		["AntiFling"] = false,
+		["AntiKnock"] = false
 	},
-	["Syn-Req"] = request or syn.request,
-	["Audios"] = {},
-	["OwnsLib"] = {}
+	["Admins"] = {"4448598211"},
+	["Owners"] = {"4334485694", "235772128"},
+	["Sounds"] = {},
+	["Whitelists"] = {},
+	["Invisible"] = false,
+	["Whitelisted"] = {}
 }
 
-function MainValues.Run(Type)
-	if Type == "GodMode" then
-			if MainValues["CustomValues"]["Godmode"] then
-					game.ReplicatedStorage.DoppioEpitaph:FireServer()
-			end
-	end
-	if Type == "AntiAnchor" then
-		if MainValues["CustomValues"]["NeverAnchor"] then
-			for Index, Object in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-					if Object:IsA("Part") and Object.Anchored == true then
-							game.ReplicatedStorage.Anchor:FireServer(Object, false)
-					end
-			end
-	end
-	if Type == "AntiFling" then
-		if MainValues["CustomValues"]["AntiFling"] then
-				for Index, Force in pairs(game.Players.LocalPlayer.Character.HumanoidRootPart:GetChildren()) do
-						if Force.ClassName:match("Body") then
-								Force:Destroy()
-						end
-				end
-		if game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Magnitude >= 175 then
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = MainValues["CustomValues"]["OrginCFrame"]
-			game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new()
-		else
-				Library["CustomValues"]["OrginCFrame"] = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-			end
+for Index,Admins in pairs(game.Players:GetPlayers()) do
+	for Index, Owners in pairs(game.Players:GetPlayers()) do
+		if table.find(LibraryValues["Owners"], game.Players.LocalPlayer.UserId) then
+			Owners.DisplayName = ('[👑]'..game.Players[Owners.Name].DisplayName)
 		end
+	end
+	if table.find(LibraryValues["Admins"], game.Players.LocalPlayer.UserId) then
+		Admins.DisplayName = ('[⭐]'..game.Players[Admins.Name].DisplayName)
 	end
 end
 
-return MainValues
+function LibraryValues:Run(Parameters)
+	if Parameters["Execute"] == "SetAnimation" and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+		local Animation = Instance.new("Animation")
+		Animation.AnimationId = "rbxassetid://"..Parameters["Id"]
+		local LoadAnim = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Animation)
+		return LoadAnim
+	end
+	if Parameters["Execute"] == "PlayAudio" and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+		game.ReplicatedStorage.Damage11Sans:FireServer(game.Players.LocalPlayer.Character.Humanoid, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 0, 0, Vector3.new(), math.huge, "rbxassetid://" .. Parameters["Id"], Parameters["Pitch"] or 1, math.huge)
+		game.ReplicatedStorage.Damage11Sans:FireServer(game.Players.LocalPlayer.Character.Humanoid, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 0, 0, Vector3.new(), math.huge, "rbxassetid://" .. Parameters["Id"], Parameters["Pitch"] or 1, math.huge)
+		game.ReplicatedStorage.Damage11Sans:FireServer(game.Players.LocalPlayer.Character.Humanoid, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 0, 0, Vector3.new(), math.huge, "rbxassetid://" .. Parameters["Id"], Parameters["Pitch"] or 1, math.huge)
+	end
+	if Parameters["Execute"] == "SetTransparency" and game.Players.LocalPlayer.Character.Stand then
+		game.ReplicatedStorage.Transparency:FireServer(Parameters["Object"], Parameters["Value"])
+	elseif Parameters["Execute"] == "RemoveStand" then
+		for Index,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+			for Index,v2 in pairs(game.Lighting:GetChildren()) do
+				if v2:IsA("LocalScript") and v:IsA("LocalScript") then
+					if v.Name == v2.Name then
+						local delete = nil
+						delete = v.Name
+						game.Players.LocalPlayer.Character[delete]:Destroy()
+					end
+				end
+			end
+		end
+	end
+	if Parameters["Execute"] == "SetupWebhook" then
+		local http_request = http_request;
+		local http_request = http_request;
+		local url = Parameters["Webhook"]
+		local info = {
+			["content"] = Parameters["Message"],
+			["username"] = Parameters["Name"],
+			["avatar_url"] = Parameters["Avatar"]
+		}
+		local data = game:GetService("HttpService"):JSONDecode(info)
+		local headers = {
+			["content-type"] = "application/json"
+		}
+		local request = http_request or request or HttpPost or syn.request
+		local abcdef = {Url = url, Body = data, Method = "POST", Headers = headers}
+		request(abcdef)
+	elseif Parameters["SetKey"] == Parameters["Input"] then
+		local Keys = {}
+		game.Players.LocalPlayer:GetMouse().KeyDown:Connect(function(key)
+			if key == Parameters["Input"] then
+				return Parameters["Results"]
+			end
+		end)
+	end
+	if LibraryValues["CustomValues"]["AntiAnchor"] == true then
+		for Index,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+			if v:IsA("Part") and v.Anchored == true then
+				game.ReplicatedStorage.Anchor:FireServer(v, false)
+			end
+		end
+	end
+	if LibraryValues["CustomValues"]["AntiFling"] == true then
+		for Index,v in pairs(game.Players.LocalPlayer.Character.HumanoidRootPart:GetChildren()) do
+			if v.ClassName:match("Body") then
+				v:Destroy()
+				task.wait(0.025)
+				v:Destroy()
+			end
+		end
+		if game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Magnitude >= 175 then
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = LibraryValues["CustomValues"]["PastCFrame"]
+			game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new()
+		else
+			LibraryValues["CustomValues"]["PastCFrame"] = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+		end
+	end
+	if LibraryValues["CustomValues"]["AntiKnock"] == true then
+		if game.Players.LocalPlayer.Character.Humanoid.PlatformStand == true then
+			game.ReplicatedStorage.GetUp:FireServer()
+			game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(3, true)
+			game.Players.LocalPlayer.Character.Humanoid.AutoRotate = true
+			game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false
+		end
+	end
+	if LibraryValues["CustomValues"]["Godmoded"] == true then
+		game.ReplicatedStorage.BurnDamage:FireServer(game.Players.LocalPlayer.Character.Humanoid, CFrame.new(), 0 * math.huge, 0, Vector3.new(), "rbxassetid://241837157", 0, Color3.new(), "", 0, 0)
+		game.ReplicatedStorage.Block:FireServer(true)
+	end
+end
+
+return LibraryValues
