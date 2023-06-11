@@ -78,14 +78,56 @@ function LibraryValues:Run(Parameters)
 			end
 		end)
 	end
-	if LibraryValues["CustomValues"]["AntiAnchor"] == true then
+	if Parameters["Execute"] == "RemakeGUI" then
+		local l1 = game.Players.LocalPlayer.PlayerGui.MenuGUI.Samurai
+		local l2 = game.Players.LocalPlayer.PlayerGui.MenuGUI.Requiem
+
+		local ps1 = l1.AbsolutePosition
+		local ps2 = l2.AbsolutePosition
+
+		local mid = UDim2.new(
+			0,
+			(ps1.X + ps2.X) / 2,
+			0,
+			(ps1.Y + ps2.Y) / 2
+		)
+
+		local tab = { l1, l2 }
+
+		if l1:FindFirstChild("UpdateText") then
+			l1.UpdateText:Destroy()
+		end
+
+		if l2:FindFirstChild("UpdateText") then
+			l2.UpdateText:Destroy()
+		end
+
+		for i = 1, 2 do
+			game:GetService("TweenService"):Create(tab[i], TweenInfo.new(0.5), { Position = mid, TextTransparency = 1 }):Play()
+		end
+
+		task.delay(0.5, function()
+			local cl = l1:Clone()
+			cl.Parent = l1.Parent
+			cl.Name = Parameters["FirstText"]
+			cl.Text = Parameters["SecondText"]
+			cl.TextTransparency = 1
+			cl.TextWrapped = false
+			cl.TextScaled = false
+			cl.TextSize = 20
+			game:GetService("TweenService"):Create(cl, TweenInfo.new(1), {TextTransparency = 0}):Play()
+			l1:Destroy()
+			l2:Destroy()
+		end)
+	end
+	if Parameters["Execute"] == "AntiAnchor" then
 		for Index,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
 			if v:IsA("Part") and v.Anchored == true then
 				game.ReplicatedStorage.Anchor:FireServer(v, false)
 			end
 		end
 	end
-	if LibraryValues["CustomValues"]["AntiFling"] == true then
+	if Parameters["Execute"] == "AntiFling" then
 		for Index,v in pairs(game.Players.LocalPlayer.Character.HumanoidRootPart:GetChildren()) do
 			if v.ClassName:match("Body") then
 				v:Destroy()
@@ -100,7 +142,7 @@ function LibraryValues:Run(Parameters)
 			LibraryValues["CustomValues"]["PastCFrame"] = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
 		end
 	end
-	if LibraryValues["CustomValues"]["AntiKnock"] == true then
+	if Parameters["Execute"] == "AntiKnock" then
 		if game.Players.LocalPlayer.Character.Humanoid.PlatformStand == true then
 			game.ReplicatedStorage.GetUp:FireServer()
 			game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(3, true)
@@ -108,7 +150,7 @@ function LibraryValues:Run(Parameters)
 			game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false
 		end
 	end
-	if LibraryValues["CustomValues"]["Godmoded"] == true then
+	if Parameters["Execute"] == "Godmode" then
 		game.ReplicatedStorage.BurnDamage:FireServer(game.Players.LocalPlayer.Character.Humanoid, CFrame.new(), 0 * math.huge, 0, Vector3.new(), "rbxassetid://241837157", 0, Color3.new(), "", 0, 0)
 		game.ReplicatedStorage.Block:FireServer(true)
 	end
