@@ -27,7 +27,7 @@ for Index,Admins in pairs(game.Players:GetPlayers()) do
 	end
 end
 
-function LibraryValues:WeldTo(obj1, obj2)
+function WeldTo(obj1, obj2)
 	local weld = Instance.new("Weld")
 	weld.Part0 = obj1
 	weld.Part1 = obj2
@@ -42,7 +42,7 @@ function LibraryValues:NewInstance(obj, SizeMult, Trans)
 	hitbox.Color = Color3.new(0,0,0)
 	hitbox.Anchored = false
 	hitbox.Transparency = Trans
-	LibraryValues:WeldTo(hitbox, obj)
+	WeldTo(hitbox, obj)
 	return hitbox
 end
 
