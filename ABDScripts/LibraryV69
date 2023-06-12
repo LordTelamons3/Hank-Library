@@ -121,7 +121,7 @@ function LibraryValues:Run(Parameters)
 	end
     if Parameters["Execute"] == "Hitbox" then
         local hitbox = Instance.new("Part")
-		hitbox.CFrame = Parameters["CFrameHito"].CFrame
+		hitbox.CFrame = Parameters["Hito"].CFrame
 		hitbox.Size = Parameters["Hito"].Size*Parameters["SizeMult"]
 		hitbox.Massless = true
 		hitbox.CanCollide = false
