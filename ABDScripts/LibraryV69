@@ -128,7 +128,7 @@ function LibraryValues:Run(Parameters)
 		hitbox.Color = Color3.new(0,0,0)
 		hitbox.Anchored = false
 		hitbox.Transparency = Parameters["Transparency"]
-		Weld(hitbox, Parameters["WeldTo"])
+		Weld(hitbox, Parameters["Hito"])
 		return hitbox
     end
 	if Parameters["Execute"] == "AntiAnchor" then
