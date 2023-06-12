@@ -42,7 +42,7 @@ function LibraryValues:NewInstance(obj, SizeMult, Trans)
 	hitbox.Color = Color3.new(0,0,0)
 	hitbox.Anchored = false
 	hitbox.Transparency = Trans
-	WeldTo(hitbox, obj)
+	LibraryValues:WeldTo(hitbox, obj)
 	return hitbox
 end
 
