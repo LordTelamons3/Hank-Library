@@ -18,13 +18,19 @@ local LibraryValues = {
 
 for Index,Admins in pairs(game.Players:GetPlayers()) do
 	for Index, Owners in pairs(game.Players:GetPlayers()) do
-		if table.find(LibraryValues["Owners"], game.Players.LocalPlayer.UserId) then
+		if table.find(LibraryValues["Owners"], Owners.UserId) then
 			Owners.DisplayName = ('[👑]'..game.Players[Owners.Name].DisplayName)
 		end
 	end
-	if table.find(LibraryValues["Admins"], game.Players.LocalPlayer.UserId) then
+	if table.find(LibraryValues["Admins"], Admins.UserId) then
 		Admins.DisplayName = ('[⭐]'..game.Players[Admins.Name].DisplayName)
 	end
+end
+
+function Weld(obj1, obj2)
+	local weld = Instance.new("Weld")
+	weld.Part0 = obj1
+	weld.Part1 = obj2
 end
 
 function LibraryValues:Run(Parameters)
@@ -70,13 +76,6 @@ function LibraryValues:Run(Parameters)
 		local request = http_request or request or HttpPost or syn.request
 		local abcdef = {Url = url, Body = data, Method = "POST", Headers = headers}
 		request(abcdef)
-	elseif Parameters["SetKey"] == Parameters["Input"] then
-		local Keys = {}
-		game.Players.LocalPlayer:GetMouse().KeyDown:Connect(function(key)
-			if key == Parameters["Input"] then
-				return Parameters["Results"]
-			end
-		end)
 	end
 	if Parameters["Execute"] == "RemakeGUI" then
 		local l1 = game.Players.LocalPlayer.PlayerGui.MenuGUI.Samurai
@@ -120,6 +119,18 @@ function LibraryValues:Run(Parameters)
 			l2:Destroy()
 		end)
 	end
+    if Parameters["Execute"] == "Hitbox" then
+        local hitbox = Instance.new("Part")
+		hitbox.CFrame = Parameters["CFrameHito"].CFrame
+		hitbox.Size = Parameters["Hito"].Size*Parameters["SizeMult"]
+		hitbox.Massless = true
+		hitbox.CanCollide = false
+		hitbox.Color = Color3.new(0,0,0)
+		hitbox.Anchored = false
+		hitbox.Transparency = Parameters["Transparency"]
+		Weld(hitbox, Parameters["WeldTo"])
+		return hitbox
+    end
 	if Parameters["Execute"] == "AntiAnchor" then
 		for Index,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
 			if v:IsA("Part") and v.Anchored == true then
