@@ -33,7 +33,7 @@ function LibraryValues:WeldTo(obj1, obj2)
 	weld.Part1 = obj2
 end
 
-function LibraryValues:NewInstance(obj, SizeMult)
+function LibraryValues:NewInstance(obj, SizeMult, Trans)
 	local hitbox = Instance.new("Part")
 	hitbox.CFrame = obj.CFrame
 	hitbox.Size = obj.Size*SizeMult
@@ -41,7 +41,7 @@ function LibraryValues:NewInstance(obj, SizeMult)
 	hitbox.CanCollide = false
 	hitbox.Color = Color3.new(0,0,0)
 	hitbox.Anchored = false
-	hitbox.Transparency = Parameters["Transparency"]
+	hitbox.Transparency = Trans
 	WeldTo(hitbox, obj)
 	return hitbox
 end
